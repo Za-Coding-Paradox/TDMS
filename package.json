@@ -34,5 +34,8 @@
   "volta": {
     "node": "24.20.0",
     "npm": "11.18.0"
+  },
+  "allowScripts": {
+    "unrs-resolver@1.12.2": true
   }
 }
