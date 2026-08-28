@@ -18,7 +18,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 const PROTECTED_PREFIXES = ['/dashboard']
 
 // Routes that logged-in users should not see (redirect to dashboard)
-const AUTH_ROUTES = ['/login', '/register', '/reset-password']
+const AUTH_ROUTES = ['/auth/login', '/auth/register', '/auth/reset-password']
 
 export async function proxy(request: NextRequest): Promise<NextResponse> {
   const { pathname } = request.nextUrl
@@ -62,7 +62,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
 
   // Unauthenticated user trying to access a protected route → send to login
   if (isProtectedRoute && !user) {
-    const loginUrl = new URL('/login', request.url)
+    const loginUrl = new URL('/auth/login', request.url)
     // Preserve the intended destination so we can redirect after login
     loginUrl.searchParams.set('redirectTo', pathname)
     return NextResponse.redirect(loginUrl)

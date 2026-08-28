@@ -1,69 +1,115 @@
-import Image from "next/image";
+import Link from 'next/link'
 
-export default function Home() {
+export default function LandingPage(): React.ReactElement {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--color-bg)' }}>
+      <nav
+        className="border-b px-6 py-4"
+        style={{
+          borderColor: 'var(--color-border)',
+          backgroundColor: 'var(--color-surface)',
+        }}
+      >
+        <div className="mx-auto flex max-w-6xl items-center justify-between">
+          <span
+            className="text-lg font-semibold"
+            style={{
+              fontFamily: 'var(--font-display)',
+              color: 'var(--color-text-primary)',
+            }}
+          >
+            TDMS
+          </span>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/auth/login"
+              className="text-sm transition-colors"
+              style={{ color: 'var(--color-text-secondary)' }}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              Sign in
+            </Link>
+            <Link
+              href="/auth/register"
+              className="rounded-md px-4 py-2 text-sm font-semibold transition-colors"
+              style={{
+                backgroundColor: 'var(--color-action)',
+                color: 'var(--color-action-text)',
+              }}
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              Register company
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </nav>
+
+      <main className="flex min-h-[calc(100vh-57px)] flex-col items-center justify-center px-6 text-center">
+        <p
+          className="mb-4 text-xs font-medium tracking-widest uppercase"
+          style={{ color: 'var(--color-action)' }}
+        >
+          For Pakistani Textile Exporters
+        </p>
+
+        <h1
+          className="text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl"
+          style={{
+            fontFamily: 'var(--font-display)',
+            color: 'var(--color-text-primary)',
+          }}
+        >
+          Every document.
+          <br />
+          Every shipment.
+          <br />
+          <span style={{ color: 'var(--color-action)' }}>Nothing missed.</span>
+        </h1>
+
+        <p
+          className="mx-auto mt-6 max-w-xl text-base sm:text-lg"
+          style={{ color: 'var(--color-text-secondary)' }}
+        >
+          TDMS automates the complete documentation pipeline — from Sales
+          Contract to bank submission package. One entry point. Every document
+          generated, verified, and print-ready.
+        </p>
+
+        <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
+          <Link
+            href="/auth/register"
+            className="rounded-md px-8 py-3 text-sm font-semibold transition-colors"
+            style={{
+              backgroundColor: 'var(--color-action)',
+              color: 'var(--color-action-text)',
+            }}
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Register your company — it&apos;s free
+          </Link>
+          <Link
+            href="/auth/login"
+            className="text-sm transition-colors"
+            style={{ color: 'var(--color-text-muted)' }}
           >
-            Documentation
-          </a>
+            Already registered? Sign in →
+          </Link>
         </div>
       </main>
+
+      <footer
+        className="border-t px-6 py-6"
+        style={{ borderColor: 'var(--color-border)' }}
+      >
+        <div className="mx-auto flex max-w-6xl items-center justify-between">
+          <span
+            className="text-sm font-semibold"
+            style={{ color: 'var(--color-text-primary)' }}
+          >
+            TDMS
+          </span>
+          <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+            Trade Documentation Management System
+          </p>
+        </div>
+      </footer>
     </div>
-  );
+  )
 }
