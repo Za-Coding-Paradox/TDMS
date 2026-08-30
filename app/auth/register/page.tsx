@@ -3,157 +3,62 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { AuthCard } from '@/components/ui/AuthCard'
-import { FormField } from '@/components/ui/FormField'
-import { SubmitButton } from '@/components/ui/SubmitButton'
+import { AuthCard } from '@/components/auth/AuthCard'
+import { Input }    from '@/components/ui/Input'
+import { Button }   from '@/components/ui/Button'
 import { register } from '@/modules/auth/actions/register'
 
 interface FormState {
-  fullName: string
-  companyName: string
-  email: string
-  password: string
+  fullName:        string
+  companyName:     string
+  email:           string
+  password:        string
   confirmPassword: string
 }
 
-interface FormErrors {
-  fullName?: string
-  companyName?: string
-  email?: string
-  password?: string
-  confirmPassword?: string
-  form?: string
-}
-
-const EMPTY_FORM: FormState = {
-  fullName: '',
-  companyName: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-}
+const EMPTY: FormState = { fullName: '', companyName: '', email: '', password: '', confirmPassword: '' }
 
 export default function RegisterPage(): React.ReactElement {
   const router = useRouter()
-  const [form, setForm] = useState<FormState>(EMPTY_FORM)
-  const [errors, setErrors] = useState<FormErrors>({})
-  const [isLoading, setIsLoading] = useState(false)
+  const [form, setForm]         = useState<FormState>(EMPTY)
+  const [error, setError]       = useState<string | undefined>()
+  const [isLoading, setLoading] = useState(false)
 
-  function setField(field: keyof FormState) {
-    return (value: string) => {
-      setForm((prev) => ({ ...prev, [field]: value }))
-      setErrors((prev) => ({ ...prev, [field]: undefined, form: undefined }))
-    }
+  function field(key: keyof FormState) {
+    return (v: string) => { setForm((p) => ({ ...p, [key]: v })); setError(undefined) }
   }
 
   async function handleSubmit(e: React.FormEvent): Promise<void> {
     e.preventDefault()
-    setIsLoading(true)
-    setErrors({})
-
+    setLoading(true)
+    setError(undefined)
     const result = await register(form)
-
-    if (!result.success) {
-      setErrors({ form: result.error })
-      setIsLoading(false)
-      return
-    }
-
+    if (!result.success) { setError(result.error); setLoading(false); return }
     router.push('/dashboard')
   }
 
   return (
-    <AuthCard
-      title="Register your company"
-      subtitle="One account per company. No verification required."
-    >
+    <AuthCard title="Create your account" subtitle="No verification required. Get started instantly.">
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-        {errors.form && (
-          <div
-            className="rounded-md px-4 py-3 text-sm"
-            style={{
-              backgroundColor: 'var(--color-error-light)',
-              color: 'var(--color-error)',
-            }}
-          >
-            {errors.form}
+        {error && (
+          <div className="rounded-[15px] bg-[#FF6250]/10 border border-[#FF6250]/30 px-5 py-3 text-[15px] text-[#FF6250]">
+            {error}
           </div>
         )}
 
-        <FormField
-          label="Your full name"
-          id="fullName"
-          placeholder="Ahmed Khan"
-          value={form.fullName}
-          onChange={setField('fullName')}
-          error={errors.fullName}
-          autoComplete="name"
-          required
-        />
+        <Input label="Your full name"  id="fullName"        value={form.fullName}        onChange={field('fullName')}        placeholder="Ahmed Khan"              autoComplete="name"         required />
+        <Input label="Company name"    id="companyName"     value={form.companyName}     onChange={field('companyName')}     placeholder="Mascot International"    autoComplete="organization" required />
+        <Input label="Email address"   id="email"           type="email"   value={form.email}           onChange={field('email')}           placeholder="you@company.com"         autoComplete="email"        required />
+        <Input label="Password"        id="password"        type="password" value={form.password}        onChange={field('password')}        placeholder="At least 8 characters"  autoComplete="new-password" required />
+        <Input label="Confirm password" id="confirmPassword" type="password" value={form.confirmPassword} onChange={field('confirmPassword')} placeholder="Repeat your password"    autoComplete="new-password" required />
 
-        <FormField
-          label="Company name"
-          id="companyName"
-          placeholder="Mascot International"
-          value={form.companyName}
-          onChange={setField('companyName')}
-          error={errors.companyName}
-          autoComplete="organization"
-          required
-        />
+        <Button type="submit" variant="primary" size="md" isLoading={isLoading} loadingText="Creating account…" className="w-full mt-2">
+          Create account
+        </Button>
 
-        <FormField
-          label="Email address"
-          id="email"
-          type="email"
-          placeholder="you@company.com"
-          value={form.email}
-          onChange={setField('email')}
-          error={errors.email}
-          autoComplete="email"
-          required
-        />
-
-        <FormField
-          label="Password"
-          id="password"
-          type="password"
-          placeholder="At least 8 characters"
-          value={form.password}
-          onChange={setField('password')}
-          error={errors.password}
-          autoComplete="new-password"
-          required
-        />
-
-        <FormField
-          label="Confirm password"
-          id="confirmPassword"
-          type="password"
-          placeholder="Repeat your password"
-          value={form.confirmPassword}
-          onChange={setField('confirmPassword')}
-          error={errors.confirmPassword}
-          autoComplete="new-password"
-          required
-        />
-
-        <SubmitButton
-          label="Create account"
-          loadingLabel="Creating account..."
-          isLoading={isLoading}
-        />
-
-        <p
-          className="text-center text-sm"
-          style={{ color: 'var(--color-text-muted)' }}
-        >
+        <p className="text-center text-[16px] text-white/40">
           Already registered?{' '}
-          <Link
-            href="/auth/login"
-            className="font-medium transition-colors"
-            style={{ color: 'var(--color-action)' }}
-          >
+          <Link href="/auth/login" className="text-[#BFAFF2] hover:text-[#ac99e8] transition-colors">
             Sign in
           </Link>
         </p>

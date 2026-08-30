@@ -1,43 +1,18 @@
 import Link from 'next/link'
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode
-}): React.ReactElement {
+export default function AuthLayout({ children }: { children: React.ReactNode }): React.ReactElement {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--color-bg)' }}>
+    <div className="min-h-screen bg-[#2B2B2B] flex flex-col">
       {/* Top bar */}
-      <div
-        className="border-b px-6 py-4"
-        style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}
-      >
-        <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <span
-              className="text-lg font-semibold"
-              style={{ fontFamily: 'var(--font-display)', color: 'var(--color-text-primary)' }}
-            >
-              TDMS
-            </span>
-            <span
-              className="hidden text-xs sm:block"
-              style={{ color: 'var(--color-text-muted)' }}
-            >
-              Trade Documentation Management System
-            </span>
-          </Link>
-          <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
-            Pakistan Textile Exports
-          </span>
-        </div>
-      </div>
+      <nav className="flex items-center justify-between px-[50px] py-[25px]">
+        <Link href="/" className="text-[24px] font-semibold text-white leading-[24px] hover:text-[#BFAFF2] transition-colors">
+          TDMS
+        </Link>
+      </nav>
 
-      {/* Page content */}
-      <div className="flex min-h-[calc(100vh-57px)] items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md">
-          {children}
-        </div>
+      {/* Centered form */}
+      <div className="flex flex-1 items-center justify-center px-4 py-12">
+        {children}
       </div>
     </div>
   )
